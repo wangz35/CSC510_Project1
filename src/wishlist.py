@@ -1,4 +1,5 @@
 import pandas as pd
+import os
 
 class wishlist():
     def __init__(self):
@@ -6,7 +7,7 @@ class wishlist():
         df = pd.read_csv(r'C:\\Users\\piyuj\\OneDrive\\Desktop\\Sem 1\\SE\\PROJ 1\\CSC510_Project1\\src\\item_data.csv')
         print(df['Title'])
 
-    def view_all(self):
+    def view_all_items(self):
         print("============================================================")
         df = pd.read_csv(r'C:\\Users\\piyuj\\OneDrive\\Desktop\\Sem 1\\SE\\PROJ 1\\CSC510_Project1\\src\\item_data.csv')
         print(df['Title'])
@@ -18,25 +19,28 @@ class wishlist():
         input_decision = int(input())
 
         if input_decision == 0:
-            self.view_all()
+            self.view_all_items()
             self.option()
 
         elif input_decision == 1:
-            self.view()
+            self.view_item()
 
         elif input_decision == 2:
-            print("ADDING ITEM")
-            self.option()
+            self.create_item()
+            print("ITEM HAS BEEN CREATED")
+            self.view_all_items()
+            # self.view_all_items()
 
         elif input_decision == 3:
             print("DELETING ITEM")
+            self.delete_item()
             self.option()
 
         else:
             print("INVALID INPUT")
             self.option()
 
-    def view(self):
+    def view_item(self):
 
         df = pd.read_csv(r'C:\\Users\\piyuj\\OneDrive\\Desktop\\Sem 1\\SE\\PROJ 1\\CSC510_Project1\\src\\item_data.csv')
         print("Enter index number of item you want to view")
@@ -51,7 +55,28 @@ class wishlist():
         else:
             print ("=====================================")
             print("INVALID INPUT")
-            self.view()
+            self.view_item()
+
+    def create_item(self):
+        print("======================================================")
+        print("INSIDE CREATE ITEM")
+        df = pd.read_csv(r'C:\\Users\\piyuj\\OneDrive\\Desktop\\Sem 1\\SE\\PROJ 1\\CSC510_Project1\\src\\item_data.csv')
+        new_item = []
+        for i in df.columns:
+            print ("ENTER NEW "+ str(i) + " BELOW:")
+            input_element = input()
+            new_item.append(input_element)
+        df.loc[len(df.index)] = new_item
+        print (df)
+        df.to_csv(r'C:\\Users\\piyuj\\OneDrive\\Desktop\\Sem 1\\SE\\PROJ 1\\CSC510_Project1\\src\\item_data.csv', index=False)
+
+    def delete_item(self):
+        print("======================================================")
+        print("INSIDE DELETE ITEM")
+        df = pd.read_csv(r'C:\\Users\\piyuj\\OneDrive\\Desktop\\Sem 1\\SE\\PROJ 1\\CSC510_Project1\\src\\item_data.csv')
+        print("ENTER INDEX OF ITEM YOU WANT TO DELETE")
+        input_choice = int(input())
+
 
 obj = wishlist()
 obj.option()
