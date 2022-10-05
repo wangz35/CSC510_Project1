@@ -1,7 +1,7 @@
 from pandas import *
 class ItemManager:
     def __init__ (self):
-        self.database = 'data/item_data.csv'
+        self.database = 'data/item_data - Copy.csv'
 
     def add_item(self, title, desc = '', cost = '', link = ''):
         data = read_csv(self.database)
@@ -14,18 +14,23 @@ class ItemManager:
 
     def get_item(self, ID: int):
         data = read_csv(self.database)
+        if data.loc[data['ItemID']==ID].empty:
+            print("Item does not exist1")
+            return -1
         return (data.loc[data['ItemID'] == ID])
 
     def delete_item(self, ID: int):
         data = read_csv(self.database)
-        print(data)
+        if data.index[data['ItemID'] == ID].empty:
+            print("Item does not exist2")
+            return -1
         data = data.drop(data.index[data['ItemID'] == ID], axis = 0)
-        print(data)
-        #data.to_csv(self.database, mode='w', index=False, header=False)
+        data.to_csv(self.database, mode='w', index=False)
         print("Item deleted.")
+        return 0
 
 
 itemMan = ItemManager()
 #itemMan.add_item('Toaster', '4 slice, with bagel setting', '35', 'www.amazon.com')
-print(itemMan.get_item(1))
-itemMan.delete_item(1)
+itemMan.get_item(100)
+itemMan.delete_item(100)
