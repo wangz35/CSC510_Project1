@@ -14,7 +14,7 @@ class AccountInfo:
             return -1
         else:
             account_dict = {
-                'ID': lastID,
+                'ID': lastID+1,
                 'Name': name,
                 'Surname': surname,
                 'Birthday': birthday,
