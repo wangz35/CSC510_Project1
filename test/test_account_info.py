@@ -1,8 +1,9 @@
 try:
-    from src.account import AccountInfo
+    from account_info import AccountInfo
 except ImportError as e:
     import sys
     sys.path.append("../CSC510_PROJECT1/src")
+    from account_info import AccountInfo
 
 
 accInfo = AccountInfo()
@@ -21,7 +22,7 @@ print('Reading non-existing account, error case')
 assert(accInfo.get_info(200) == -1)
 
 print('Deleting account')
-assert(accInfo.delete_account(3).all()[0] == 1)
+assert(accInfo.delete_account(11).all()[0] == 1)
 
 print('Deleting an nonexisting account')
 assert(accInfo.delete_account(300) == -1)

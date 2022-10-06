@@ -3,13 +3,14 @@ import pandas as pd
 
 class AccountInfo:
     def __init__(self):
-        self.database = 'data/people_test.csv'
+        self.database = 'data/people_data.csv'
         self.data = pd.read_csv(self.database)
         
     def create_account(self, ID, name, surname='', birthday='', interests='', wishlist='', friendlist=''):
         id_list = self.data.ID.tolist()
         if ID in id_list:
             print('User ID: ', ID, 'already in the database')
+            print(type(self.data['ID']==ID))
             print(self.data[self.data['ID']==ID])
             return -1
         else:
