@@ -3,32 +3,28 @@ import pandas as pd
 
 class AccountInfo:
     def __init__(self):
-        self.database = 'data/people_data.csv'
+        self.database = 'data/people_data-copy.csv'
         self.data = pd.read_csv(self.database)
         
-    def create_account(self, ID, name, surname='', birthday='', interests='', wishlist='', friendlist=''):
-        id_list = self.data.ID.tolist()
-        if ID in id_list:
-            print('User ID: ', ID, 'already in the database')
-            print(self.data[self.data['ID']==ID])
+    def create_account(self, name, surname='', birthday='', interests='', wishlist='', friendlist=''):
+        id_list = sorted(self.data.ID.tolist(), reverse=True)
+        lastID = id_list[0]
+        if name == '':
+            print('Name cannot be empty')
             return -1
         else:
-            if name == '':
-                print('Name cannot be empty')
-                return -1
-            else:
-                account_dict = {
-                    'ID': ID,
-                    'Name': name,
-                    'Surname': surname,
-                    'Birthday': birthday,
-                    'Interests': interests,
-                    'WishList': wishlist,
-                    'FriendList': friendlist
-                }
-                self.data = self.data.append(account_dict, ignore_index=True)
-                self.data.to_csv(self.database, index=False)
-                print('Account created successfully!')
+            account_dict = {
+                'ID': lastID,
+                'Name': name,
+                'Surname': surname,
+                'Birthday': birthday,
+                'Interests': interests,
+                'WishList': wishlist,
+                'FriendList': friendlist
+            }
+            self.data = self.data.append(account_dict, ignore_index=True)
+            self.data.to_csv(self.database, index=False)
+            print('Account created successfully!')
         return self.data
     
     def update_account(self, ID, name='', surname='', birthday='', interests='', wishlist='', friendlist=''):
