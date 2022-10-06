@@ -9,7 +9,8 @@ except ImportError as e:
 accInfo = AccountInfo()
 print('Adding account...')
 created_acc = accInfo.create_account('Ram', 'Bhusal', '12/23/1998', '"Eating pizza, Salsa, Ramen"', '"1, 2, 3, 5"', '"2, 3"')
-created_row = created_acc[created_acc['ID']==11]
+_id = created_acc.ID.values[0]
+created_row = created_acc[created_acc['ID']==_id]
 assert(created_row.Name.values[0] == 'Ram')
 assert(created_row.Surname.values[0] == 'Bhusal')
 assert(created_row.Birthday.values[0] == '12/23/1998')
@@ -22,7 +23,7 @@ print('Reading non-existing account, error case')
 assert(accInfo.get_info(200) == -1)
 
 print('Deleting account')
-assert(accInfo.delete_account(11).all()[0] == 1)
+assert(accInfo.delete_account(_id).all()[0] == 1)
 
 print('Deleting an nonexisting account')
 assert(accInfo.delete_account(300) == -1)
