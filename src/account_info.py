@@ -10,7 +10,6 @@ class AccountInfo:
         id_list = self.data.ID.tolist()
         if ID in id_list:
             print('User ID: ', ID, 'already in the database')
-            print(type(self.data['ID']==ID))
             print(self.data[self.data['ID']==ID])
             return -1
         else:
