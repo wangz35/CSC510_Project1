@@ -25,7 +25,7 @@ class AccountInfo:
             self.data = self.data.append(account_dict, ignore_index=True)
             self.data.to_csv(self.database, index=False)
             print('Account created successfully!')
-        return self.data
+        return self.data[self.data['ID']==lastID+1]
     
     def update_account(self, ID, name='', surname='', birthday='', interests='', wishlist='', friendlist=''):
         id_list = self.data.ID.tolist()
@@ -59,7 +59,7 @@ class AccountInfo:
             self.data.at[index, 'WishList'] = account_dict
             self.data.to_csv(self.database, index=False)
             print('Account updated successfully!')
-        return self.data
+        return self.data[self.data['ID']==ID]
     
     def get_database(self):
         return self.data
@@ -74,7 +74,7 @@ class AccountInfo:
             self.data = self.data.drop(matched_data.index)
             print('Account deleted successfully!')
             self.data.to_csv(self.database, index=False)
-        return self.data
+        return matched_data
     
     def get_info(self, ID):
         id_list = self.data.ID.tolist()
@@ -154,7 +154,7 @@ class AccountInfo:
         index = self.data[self.data['ID']==ID].index[0]
         self.data.at[index, 'WishList'] = wl_str
         self.data.to_csv(self.database, index=False)
-        return self.data
+        return self.data[self.data['ID']==ID]
     
     def delete_wishlist(self, ID, items):
         flag = 1
@@ -179,7 +179,7 @@ class AccountInfo:
         index = self.data[self.data['ID']==ID].index[0]
         self.data.at[index, 'WishList'] = wl_str
         self.data.to_csv(self.database, index=False)
-        return self.data
+        return self.data[self.data['ID']==ID]
         
     def get_friendlist(self, ID):
         result, flag = self.search_ID(ID)
@@ -188,3 +188,58 @@ class AccountInfo:
         else:
             result_dict = result.values
             return result_dict[0][6]
+
+
+class Friends(AccountInfo):
+    def __init__(self):
+        super().__init__()
+    
+    def get_friend_names(self,ID):
+        friend_names = []
+        friend_ids = self.get_friendlist(ID)
+        for c in friend_ids:
+            try:
+                if int(c):
+                    friend_id = int(c)
+                    fname = self.get_name(friend_id)
+                    sname = self.get_surname(friend_id)
+                    aname = fname + " " + sname 
+                    friend_names.append(aname)
+            except:
+                pass
+            
+        return friend_names
+    
+    def add_friend(self, ID: int, friend_IDs: list):
+        fl_str = self.get_friendlist(ID)
+        if str(fl_str)=='nan':
+            fl_str = []
+        else:
+            fl_str = fl_str.replace('"','')
+            fl_str = fl_str.split(', ')
+        for _id in friend_IDs:
+            if str(_id) in fl_str:
+                print('ID:', _id, 'is Already friend!!!')
+            else:
+                fl_str.append(str(_id))
+        fl_str = ', '.join(i for i in fl_str)
+        fl_str = '"' + fl_str + '"'
+        index = self.data[self.data['ID']==ID].index[0]
+        self.data.at[index, 'FriendList'] = fl_str
+        return self.data[self.data['ID']==ID]
+    
+    def delete_friend(self, ID: int, friend_IDs: list):
+        fl_str = self.get_friendlist(ID)
+        fl_str = fl_str.replace('"','')
+        fl_str = fl_str.split(', ')
+        for _id in friend_IDs:
+            if str(_id) in fl_str:
+                fl_str.remove(str(_id))
+            else:
+                print('ID:', _id, 'not found in the friend list!!')
+        fl_str = ', '.join(i for i in fl_str)
+        fl_str = '"' + fl_str + '"'
+        index = self.data[self.data['ID']==ID].index[0]
+        self.data.at[index, 'FriendList'] = fl_str
+        return self.data[self.data['ID']==ID]
+    
