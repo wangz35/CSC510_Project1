@@ -2,10 +2,16 @@ import pandas as pd
 import sys
 
 class wishlist():
-    def __init__(self):
-        print ("WISHLIST ::")
-        df = pd.read_csv(r'./data/item_data.csv')
-        print(df['Title'])
+    def __init__(self, items):
+        self.items = items
+        #print(df['Title'])
+
+    def add_item(self, item):
+        self.items.append(item)
+    
+    def delete_item(self, itemID):
+        for i, item in enumerate(self.items):
+            pass 
 
     def option(self):
         print("============================================================")
