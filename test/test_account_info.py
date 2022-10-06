@@ -8,7 +8,7 @@ except ImportError as e:
 
 accInfo = AccountInfo()
 print('Adding account...')
-created_acc = accInfo.create_account(11, 'Ram', 'Bhusal', '12/23/1998', '"Eating pizza, Salsa, Ramen"', '"1, 2, 3, 5"', '"2, 3"')
+created_acc = accInfo.create_account('Ram', 'Bhusal', '12/23/1998', '"Eating pizza, Salsa, Ramen"', '"1, 2, 3, 5"', '"2, 3"')
 created_row = created_acc[created_acc['ID']==11]
 assert(created_row.Name.values[0] == 'Ram')
 assert(created_row.Surname.values[0] == 'Bhusal')
