@@ -47,11 +47,7 @@ jobs:
       run: |
         git config user.name github-actions
         git config user.email github-actions@github.com
-        git add ./src/account.html
-        git add ./src/account_info.html
-        git add ./src/item.html
-        git add ./src/item_manager.html
-        git add ./src/wishlist.html
+        git add ./src/*
         if ! git diff-index --quiet HEAD; then
            git commit -m "Documentation"
            git fetch origin main
