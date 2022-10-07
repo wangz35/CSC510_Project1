@@ -1,11 +1,20 @@
 from item_manager import ItemManager
 class item():
-    def __init__(self, title, desc, link, cost):
-        self.title = title
-        self.desc = desc
-        self.link = link
-        self.cost = cost
-        self.itemID = int(self.create_item()['ItemID'])
+    def __init__(self, title = '', desc = '', link = '', cost = '', ID = None):
+        if ID != None:
+            itemMan = ItemManager()
+            info = itemMan.get_item(ID)
+            self.title = info['Title']
+            self.desc = info['Description']
+            self.link = info['Link']
+            self.cost = info['Cost']
+            self.itemID = ID
+        else:
+            self.title = title
+            self.desc = desc
+            self.link = link
+            self.cost = cost
+            self.itemID = int(self.create_item()['ItemID'])
 
     
     def create_item(self):
@@ -31,8 +40,8 @@ class item():
 
 
 
-i = item('Football', 'NFL original', 'www.football.com', 50)
-print(i.cost)
-i.modify_item('Football', 'NFL original', 'www.football.com', 65)
-print(i.view_item())
-i.delete_item()
+# i = item('Football', 'NFL original', 'www.football.com', 50)
+# print(i.cost)
+# i.modify_item('Football', 'NFL original', 'www.football.com', 65)
+# print(i.view_item())
+# i.delete_item()

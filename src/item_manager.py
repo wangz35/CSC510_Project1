@@ -1,7 +1,11 @@
 from pandas import *
 class ItemManager:
     def __init__ (self):
-        self.database = 'data/item_data - Copy.csv'
+        try:
+            self.database = 'data/item_data - Copy.csv'
+            data = read_csv(self.database)
+        except: 
+            self.database = '../data/item_data - Copy.csv'
 
     def add_item(self, title, desc = '', cost = '', link = ''):
         if title == '':

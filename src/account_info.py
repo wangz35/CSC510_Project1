@@ -1,10 +1,15 @@
 import numpy as np
 import pandas as pd
+import sys
 
 class AccountInfo:
     def __init__(self):
-        self.database = 'data/people_data-copy.csv'
-        self.data = pd.read_csv(self.database)
+        try:
+            self.database = 'data/people_data-copy.csv'
+            self.data = pd.read_csv(self.database)
+        except FileNotFoundError:
+            self.database = '../data/people_data-copy.csv'
+            self.data = pd.read_csv(self.database)
         
     def create_account(self, name, surname='', birthday='', interests='', wishlist='', friendlist=''):
         id_list = sorted(self.data.ID.tolist(), reverse=True)
@@ -34,18 +39,19 @@ class AccountInfo:
             return -1
         else:
             data = self.data[self.data['ID']==ID]
-            if name=='':
-                name = data.Name.values[0]
-            if surname=='':
-                surname = data.Surname.values[0]
-            if birthday=='':
-                birthday = data.Birthday.values[0]
-            if interests=='':
-                interests = data.Interests.values[0]
-            if wishlist=='':
-                wishlist = data.WishList.values[0]
-            if friendlist=='':
-                friendlist = data.FriendList.values[0]
+            # if name=='':
+            #     name = data.Name.values[0]
+            # if surname=='':
+            #     surname = data.Surname.values[0]
+            # if birthday=='':
+            #     birthday = data.Birthday.values[0]
+            # if interests=='':
+            #     interests = data.Interests.values[0]
+            # if wishlist=='':
+            #     wishlist = data.WishList.values[0]
+            #     print(wishlist)
+            # if friendlist=='':
+            #     friendlist = data.FriendList.values[0]
             account_dict = {
                 'ID': ID,
                 'Name': name,
@@ -56,7 +62,15 @@ class AccountInfo:
                 'FriendList': friendlist
             }
             index = self.data[self.data['ID']==ID].index[0]
-            self.data.at[index, 'WishList'] = account_dict
+            #self.data.at[index, 'WishList'] = account_dict
+            self.data.loc[index,'ID'] = ID
+            self.data.loc[index,'Name'] = name
+            self.data.loc[index, 'Surname'] = surname
+            self.data.loc[index, 'Birthday'] = birthday
+            self.data.loc[index, 'Interests'] = interests
+            self.data.loc[index, 'WishList'] = wishlist
+            print(type(wishlist))
+            self.data.loc[index, 'FriendList'] = friendlist
             self.data.to_csv(self.database, index=False)
             print('Account updated successfully!')
         return self.data[self.data['ID']==ID]
