@@ -2,7 +2,7 @@ try:
     from account_info import AccountInfo, Friends
 except ImportError as e:
     import sys
-    sys.path.insert(0, '../src')
+    sys.path.insert(0, './src')
     from account_info import AccountInfo, Friends
 
 
