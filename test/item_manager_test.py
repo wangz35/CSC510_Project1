@@ -2,7 +2,7 @@ try:
     from item_manager import ItemManager
 except ImportError as e:
     import sys
-    sys.path.insert(0, '../src')
+    sys.path.insert(0, './src')
 
 from item_manager import ItemManager
 
