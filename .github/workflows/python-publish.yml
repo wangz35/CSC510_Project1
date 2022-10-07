@@ -12,7 +12,7 @@ jobs:
         token: ${{ secrets.CODECOV_TOKEN }}
     - name: Generate report
       run: |
-        pip install coverage
+        pip install coverage pandas
         coverage run test/item_manager_test.py
         coverage run test/test_account_info.py
         coverage xml
